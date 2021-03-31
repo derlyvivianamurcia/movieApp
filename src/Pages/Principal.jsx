@@ -6,7 +6,6 @@ import Card from "../Components/Card.jsx";
 import Paginacion from "../Components/Paginacion.jsx";
 import Footer from "../Components/Footer.jsx"
 import axios from "axios";
-import { Dropdown } from 'react-bootstrap';
 
 class Principal extends React.Component {
   
