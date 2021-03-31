@@ -8,22 +8,22 @@ import Footer from "../Components/Footer.jsx"
 import axios from "axios";
 import { Dropdown } from 'react-bootstrap';
 
-
 class Principal extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
+      selectedCheckboxes: [],
       genres: [],
       listadoMovies: [],
       page: 1,
     };
   }
 
-  async componentDidMount(genres) {
+  async componentDidMount() {
     try {
-      this.traerPeliculasApi(genres)
-        .then(response => response.json())
+      this.traerPeliculasApi()
     } catch (e) {
       this.setState({ loading: false, error: true })
     }
@@ -45,7 +45,6 @@ class Principal extends React.Component {
         this.state.page
       )
       .then((resultado) => {
-        console.log(resultado);
         this.setState({
           listadoMovies: resultado.data.results,
           page: resultado.data.page,
@@ -71,13 +70,11 @@ class Principal extends React.Component {
   }
 
   handleChangeBuscarInput = (e) => {
-    const valorParaBuscar = e.target.value;
-    console.log(valorParaBuscar);
-    this.buscarMovies(valorParaBuscar);
+    const datoBuscar = e.target.value;
+    this.buscarMovies(datoBuscar);
   };
 
   nextPage = () => {
-    console.log(this.state);
     this.setState({ page: this.state.page++ });
     this.traerPeliculasApi();
   };
@@ -88,34 +85,52 @@ class Principal extends React.Component {
       this.traerPeliculasApi();
     }
   };
-  changeGenre(genres) {
-    this.componentDidMount(genres);
-  }
-  render() {
-    const { genres } = this.state;
 
+
+  onChange = id => {
+    const selectedCheckboxes = this.state.selectedCheckboxes;
+    const findIdx = selectedCheckboxes.indexOf(id);
+    if (findIdx > -1) {
+      selectedCheckboxes.splice(findIdx, 1);
+    } else {
+      selectedCheckboxes.push(id);
+      this.fetchGenres(selectedCheckboxes);
+
+    }
+
+    this.setState({
+      selectedCheckboxes: selectedCheckboxes
+    });
+  };
+  render() {
+    const { selectedCheckboxes } = this.state;
     return (
       <div>
         <Header />
         <div className="container">
           <Filtro OnchangeFiltro={this.handleChangeBuscarInput} />
-          <div class="row justify-content-md-center">
-            <Dropdown key={genres.id}>
-              <Dropdown.Toggle variant='danger' id='dropdown-basic'> Géneros </Dropdown.Toggle>
-              <Dropdown.Menu> {this.state.genres.map(genre => (
-                <Dropdown.Item eventKey={genre.id} key={genre.id} onSelect={genre => this.changeGenre(genre)}> {genre.name} </Dropdown.Item>))}
-              </Dropdown.Menu>
-            </Dropdown>
-
-          </div>
-          <br />
+       
+          <div className="App" >
+           {this.state.genres.map(genre => (
+          <label key={genre.id}>
+             {genre.name}
+            <input
+              type="checkbox"
+              onChange={() => this.onChange(genre.name)}
+              selected={selectedCheckboxes.includes(genre.id)}
+            />
+          </label>
+        ))}
+        <p>Categoría seleccionada: {JSON.stringify(selectedCheckboxes)}</p>
+      </div>
+                  <br />
           <div className="row">
-            {this.state.listadoMovies.map((movie, index) => {
+            {this.state.listadoMovies.map((movie,  index) => {
               return (
                 <Card
                   key={index}
                   name={movie.title}
-                  vote_average={movie.vote_average}
+                 vote_average={movie.vote_average}
                   to={`/detalle-movie/${movie.id}`}
                   image={`https://image.tmdb.org/t/p/w400` + movie.poster_path}
                 />

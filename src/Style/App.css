@@ -19,8 +19,11 @@
 
 .container-detalles{
   margin-top: 100px;
+  
 }
-
+.card-img-top{
+border-radius: 10%;;
+}
 .App {
   text-align: center;
 }
