@@ -12,7 +12,6 @@ class Principal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
       loading: false,
       selectedCheckboxes: [],
       genres: [],
