@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Star from "./Star.jsx"
 
-export default function Card({ name, image, to, vote_average, genres }) {
+export default function Card({ name, image, to, vote_average}) {
   return (
     <div className=" justify-content-center col-lg-4 col-md-6 col-sm-12" >
       <div className="card" style={{ width: "18rem", height: "515px" }}>

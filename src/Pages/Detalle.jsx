@@ -22,7 +22,7 @@ class DetalleMovies extends Component {
     const { match } = this.props;
     const id = match.params.id;
 
-    console.log("id que llega " + id);
+    console.log("id" + id);
 
     axios
       .get(

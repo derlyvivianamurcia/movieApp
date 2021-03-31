@@ -9,7 +9,6 @@ export default class Login extends Component {
         super()
         this.state = {
             cargando : false,
-            recordar : false,
             correo : null,
             contrasena : null
         }
@@ -26,7 +25,7 @@ export default class Login extends Component {
 
     cambioEntradaCampo = (event) => {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value =  target.value;
         const name = target.name;
     
         this.setState({
@@ -36,8 +35,7 @@ export default class Login extends Component {
 
     iniciarSesion = (e) =>  {
         e.preventDefault()
-
-        this.setState({ cargando: true })
+       this.setState({ cargando: true })
         
         setTimeout( () => {
             if(this.state.correo === CUENTA_USUARIO && this.state.contrasena === CONTRASENA_USUARIO){

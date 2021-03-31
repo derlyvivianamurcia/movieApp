@@ -12,6 +12,7 @@ class Principal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+
       loading: false,
       selectedCheckboxes: [],
       genres: [],
@@ -20,16 +21,6 @@ class Principal extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    try {
-      this.traerPeliculasApi()
-    } catch (e) {
-      this.setState({ loading: false, error: true })
-    }
-  }
-  componentWillMount() {
-    this.fetchGenres();
-  };
   fetchGenres() {
     fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=4a48bbc6d73f2ceac252225dfe343a0d&language=en-US')
       .then(response => response.json())
@@ -101,6 +92,12 @@ class Principal extends React.Component {
       selectedCheckboxes: selectedCheckboxes
     });
   };
+  
+  componentDidMount() {
+    this.traerPeliculasApi();
+    this.fetchGenres();
+}
+
   render() {
     const { selectedCheckboxes } = this.state;
     return (
